@@ -13,6 +13,11 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
+        // 1) A new array of doubles is created with the requested size (length).
+        // 2) Loop from 0 up to array length.
+        // 3) For each index i, the number is multiplied by (i + 1).
+        // 4) Store the value into the array at position i add it to the array and return the loop ends.
+
         var result = new double[length];
 
         for (int i = 0; i < length; i++)
@@ -36,6 +41,17 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        // 1) Find out how many items are in the list (n = data.Count).
+        // 2) Find the index where we "cut" the list so the last 'amount' elements move to the front:
+        //      cutIndex = n - amount
+        // 3) Slice the list into two parts:
+        //      left  = data[0..cutIndex-1]   (the first n-amount items)
+        //      right = data[cutIndex..end]  (the last amount items)
+        // 4) Clear the original list (because we must modify it in-place).
+        // 5) Add the 'right' part first, then add the 'left' part.
+        // 6) Data is now rotated to the right by 'amount'.
+
 
         int n = data.Count;
         int cutIndex = n - amount;

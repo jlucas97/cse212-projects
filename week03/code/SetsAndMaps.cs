@@ -22,7 +22,33 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+
+        //HashSet and List will store the words and results
+        var sets = new HashSet<string>(words);
+        var result = new List<string>();
+
+        // Iterate over each word
+        foreach (var word in words)
+        {
+            // Skip words with consecutive same letters
+            if (word[0] == word[1]) continue; 
+
+            var reversed = new string(new[] { word[1], word[0] }); // Create the reversed version of the current word
+
+            // Check if the reversed word exists in the set
+            if (sets.Contains(reversed))
+            {
+                // Add the symmetric pair to the result list
+                result.Add($"{word} & {reversed}");
+
+                // Remove both words from the set to avoid duplicate pairs
+                sets.Remove(word);
+                sets.Remove(reversed);
+            }
+        }
+
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -43,6 +69,24 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+
+            // The if statementn ensures the line has at least 4 columns
+            if (fields.Length > 3)
+            {
+                // Extract degree from column 4 (index 3)
+                var degree = fields[3].Trim(); 
+
+                if (degrees.ContainsKey(degree))
+                {
+                    // Increment the count of degrees if the degree already exists
+                    degrees[degree]++; 
+                }
+                else
+                {
+                    // A new degree is added with initial count in 1
+                    degrees[degree] = 1; 
+                }
+            }
         }
 
         return degrees;
@@ -66,8 +110,50 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
+        // Normalize both words by removing spaces and converting to lowercase
+    var normalizedWord1 = word1.Replace(" ", "").ToLower();
+    var normalizedWord2 = word2.Replace(" ", "").ToLower();
+
+    // If lengths differ, they cannot be anagrams
+    if (normalizedWord1.Length != normalizedWord2.Length)
+    {
         return false;
+    }
+
+    // Dictionary to track character frequencies
+    var characterFrequency = new Dictionary<char, int>();
+
+    // Count characters from the first word
+    foreach (var character in normalizedWord1)
+    {
+        if (characterFrequency.ContainsKey(character))
+        {
+            characterFrequency[character]++;
+        }
+        else
+        {
+            characterFrequency[character] = 1;
+        }
+    }
+
+    // Decrease counts using characters from the second word
+    foreach (var character in normalizedWord2)
+    {
+        if (!characterFrequency.ContainsKey(character))
+        {
+            return false;
+        }
+
+        characterFrequency[character]--;
+
+        if (characterFrequency[character] < 0)
+        {
+            return false;
+        }
+    }
+
+    // Verify all character counts return to zero
+    return characterFrequency.Values.All(count => count == 0);
     }
 
     /// <summary>

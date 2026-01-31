@@ -30,9 +30,12 @@ public class Maze
     /// Check to see if you can move left.  If you can, then move.  If you
     /// can't move, throw an InvalidOperationException with the message "Can't go that way!".
     /// </summary>
+    /// 
+    /// 
     public void MoveLeft()
     {
-        // FILL IN CODE
+        // Attempt movement to the left
+        MoveIfPossible(directionIndex: 0, deltaX: -1, deltaY: 0);
     }
 
     /// <summary>
@@ -41,7 +44,8 @@ public class Maze
     /// </summary>
     public void MoveRight()
     {
-        // FILL IN CODE
+         // Attempt movement to the right
+        MoveIfPossible(directionIndex: 1, deltaX: 1, deltaY: 0);
     }
 
     /// <summary>
@@ -50,7 +54,8 @@ public class Maze
     /// </summary>
     public void MoveUp()
     {
-        // FILL IN CODE
+        // Attempt movement upward
+        MoveIfPossible(directionIndex: 2, deltaX: 0, deltaY: -1);
     }
 
     /// <summary>
@@ -59,7 +64,22 @@ public class Maze
     /// </summary>
     public void MoveDown()
     {
-        // FILL IN CODE
+        // Attempt movement downward
+        MoveIfPossible(directionIndex: 3, deltaX: 0, deltaY: 1);
+    }
+
+    // Handles movement validation and position updates
+    private void MoveIfPossible(int directionIndex, int deltaX, int deltaY)
+    {
+        // Check whether movement in the given direction is allowed
+        if (!_mazeMap[(_currX, _currY)][directionIndex])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // Update current position
+        _currX += deltaX;
+        _currY += deltaY;
     }
 
     public string GetStatus()
